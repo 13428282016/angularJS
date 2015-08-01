@@ -1,0 +1,10 @@
+<select ng-model="sort">
+    <option value="name">name</option>
+    <option value="number">number</option>
+</select>
+
+<input type="text" ng-model="query">
+
+<ul>
+    <li ng-click="showName(phone)"  ng-repeat="phone in phones |filter:query |orderBy:sort">{{phone.name| checkmark}}-{{phone.number}}</li>
+</ul>
