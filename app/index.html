@@ -33,6 +33,7 @@
   -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-resource.js"></script>
   <script src="app.js"></script>
   <script src="view1/view1.js"></script>
   <script src="view2/view2.js"></script>
@@ -42,12 +43,13 @@
   <script>
 
 
-      function PhoneListCtrl($scope,$http)
+      function PhoneListCtrl($scope,$http,Phone)
       {
 
-              $http.get('/app/index.html').success(function(data){
-
-              })
+//              $http.get('/app/index.html').success(function(data){
+//
+//              })
+               $scope.phones=Phone.query();
               $scope.phones=[
                   {name:"phone2",number:123456789,img:'http://cdn.angularjs.cn/img/lagou.jpg'},
                   {name:'phone1',number:3255454456,img:'http://cdn.angularjs.cn/img/lagou.jpg'}
@@ -70,7 +72,7 @@
           ];
 
       }
-      angular.module('myApp',['ngRoute']).controller( 'PhoneListCtrl', PhoneListCtrl).controller('PhoneDetailCtrl',PhoneDetailCtrl).
+      angular.module('myApp',['ngRoute','ngResource']).controller( 'PhoneListCtrl', PhoneListCtrl).controller('PhoneDetailCtrl',PhoneDetailCtrl).
 
         config(['$routeProvider', function($routeProvider) {
             $routeProvider.
@@ -83,6 +85,10 @@
                   {
                       return input.toUpperCase();
                   }
+              }).factory('Phone',function($resource){
+                  return $resource('phone/:phoneId.json',{},{
+                      query:{method:'GET',params:{phoneId:'phones'},isArray:true}
+                  })
               })
 
       ;
